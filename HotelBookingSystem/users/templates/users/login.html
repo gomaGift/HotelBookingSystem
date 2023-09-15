@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<h2>Log in Page</h2>
+   {% if error_message %}
+   <p>{{ error_message }}</p>
+   {% endif %}
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">login</button>
+        <br><br>
+        <a href="{% url 'register' %}">SignUp</a>
+        <a href="{% url 'password-reset' %}">forget password?</a>
+    </form>
+
+{% endblock content %}
