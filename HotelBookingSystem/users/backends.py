@@ -5,9 +5,7 @@ from django.db.models import Q
 
 
 class CustomUserEmailOrPhoneBackend(ModelBackend):
-     def authenticate(self, request, username=None, password=None, **kwargs):
-        print(username)
-        
+     def authenticate(self, request, username=None, password=None, **kwargs):        
         User = get_user_model()
         user = User.objects.filter(Q(email=username) | Q(phone_number=username)).first()
         

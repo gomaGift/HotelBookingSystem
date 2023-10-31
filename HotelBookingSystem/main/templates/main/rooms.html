@@ -1,0 +1,222 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content%}
+<div class="my-5 px-4">
+  {% if messages %} 
+  {{message}}
+  {% endif %}
+  {% if available_rooms %}
+  <h2 class="fw-bold h-font text-center">AVAILABLE ROOMS</h2>
+  {% else %}
+  <h2 class="fw-bold h-font text-center">OUR ROOMS</h2>
+  {% endif %}
+  {% if messages %}
+  {% for message in messages %}
+  {{message}}
+  {% endfor %}
+  {% endif %}  
+  <div class="h-line bg-dark"></div>
+
+</div>
+<form class="container mt-2" method="GET" action="">
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-9">
+      <div class="d-flex justify-content-center px-5">
+        <div class="search"> <input type="text" class="search-input" placeholder="Search rooms..." name="q">
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3 col-md-12 mb-lg-0 mb-4 px-0 " >
+      <nav  class="room_filters navbar navbar-expand-lg navbar-light bg-white rounded shadow">
+        <div class="container-fluid flex-lg-column align-items-stretch">
+          <h4 class="mt-2">FILTERS</h4>
+          <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse"
+            data-bs-target="#filterDropdown" aria-controls="navbarNav" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse flex-column align-items-stretch mt-2" id="filterDropdown">
+            <form method="post"
+             action="{% url 'check-availability-rooms' %}" class="room_filters border bg-light p-3 rounded mb-3">
+              {% csrf_token %}
+              <h5 class="mb-3" style="font-size: 18px;">CHECK AVAILABILITY</h5>
+              <label class="form-label">Check-in</label>
+              <input type="date" class="form-control shadow-none mb-3" name="check_in_date">
+              <label class="form-label">Check-out</label>
+              <input type="date" class="form-control shadow-none" name="check_out_date">
+              <button class="btn btn-sm w-100 text-white custom-bg shadow-none mt-2" type="submit">Check</button>
+            </form>
+            <form method="POST" action="{% url 'rooms' %}" class="room_filters border bg-light p-3 rounded mb-3">
+              {% csrf_token %}
+              <h5 class="mb-3" style="font-size: 18px;">FEATURES</h5>
+              {% for feature_id,feature_name in form.features.field.choices %}
+              <div class="mb-2">
+                <input type="checkbox" class="form-check-input shadow-none me-1" id="feature_{{ feature_id }}"
+                  name="features" value="{{ feature_id }}">
+                <label class="form-check-label" for="feature_{{ feature_id }}">{{ feature_name }}</label>
+              </div>
+              {% endfor %}
+              <button class="btn btn-sm w-100 text-white custom-bg shadow-none mb-2" type="submit">Filter</button>
+            </form>
+
+            <form method="post" action="{% url 'rooms' %}" class="room_filters border bg-light p-3 rounded mb-3">
+              {% csrf_token %}
+              <h5 class="mb-3" style="font-size: 18px;">Other</h5>
+              <div class="d-flex">
+                <div class="me-2">
+                  <label class="form-label"> Adults </label>
+                  <input type="number" class="form-control shadow-none" name="adults_count" placeholder="e.g 1,2">
+                </div>
+                <div>
+                  <label for="numberInput" class="form-label"> Children </label>
+                  <input type="number" id="numberInput" class="form-control shadow-none" name="children_count"
+                    placeholder="e.g 1, 2..">
+
+                </div>
+
+              </div>
+              <div>
+                <label class="form-label"> Beds </label>
+                <input type="number" class="form-control shadow-none" name="bed_count" placeholder="e.g 1, 2">
+              </div>
+              <button class="btn btn-sm w-100 text-white custom-bg shadow-none mt-2" type="submit">Filter</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    {% if rooms %}
+    <div class="col-lg-9 col-md-12 px-4">
+      {% for room in rooms %}
+      <div class="card mb-4 border-0 shadow">
+        <div class="row g-0 p-3 align-items-center">
+          <div class="col-md-5 mb-lg-0 mb-md-0 mb-3">
+            {% with display_pic=room.get_display_photo %}
+            {% if display_pic %}
+            <img src="{{ display_pic.photo.url }}" class="img-fluid rounded room-image" width="300" height="200">
+            {% else %}
+            <img src="{% static 'img/room_photos/default.png' %}" class="img-fluid rounded room-image" width="300"
+              height="200">
+            {% endif %}
+            {% endwith %}
+
+          </div>
+          <div class="col-md-5 px-lg-3 px-md-3 px-0">
+            <h5 class="mb-3">{{room.room_type.name}}</h5>
+            <div class="features mb-4">
+              <h6 class="mb-1">Features</h6>
+              {% for feature in room.room_type.feature.all %}
+              <span class="badge rounded-pill bg-light text-dark text-wrap">
+                {{feature.name}}
+              </span>
+              {% endfor %}
+              <span class="badge rounded-pill bg-light text-dark text-wrap">
+                Beds {{room.bed_count}}
+              </span>
+
+            </div>
+
+            <div class="guests">
+              <h6 class="mb-1">Guests</h6>
+              <span class="badge rounded-pill bg-light text-dark text-wrap">
+                {{room.max_adults}} Adults
+              </span>
+              <span class="badge rounded-pill bg-light text-dark text-wrap">
+                {{room.max_children}} Children
+              </span>
+              
+            </div>
+          </div>
+          <div class="col-md-2 mt-lg-0 mt-md-0 mt-4 text-center">
+            <div>
+            <span class="badge rounded-pill bg-light text-dark text-wrap mb-lg-3">
+              K{{room.price_per_night}} per night
+            </span>
+          </div>
+          <a href="{% url 'book'  room.id %}"
+          class="btn btn-sm w-100 text-white custom-bg shadow-none mb-2">Book room</a>
+
+            <a href="{% url 'room-detail' room.id %}" class="btn btn-sm btn-outline-dark shadow-none">see details</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+
+    </div>
+    {% else %}
+    <div class="col-lg-9 col-md-12 px-4">
+      {% for room in available_rooms %}
+      <div class="card mb-4 border-0 shadow">
+        <div class="row g-0 p-3 align-items-center">
+          <div class="col-md-5 mb-lg-0 mb-md-0 mb-3">
+            {% with display_pic=room.get_display_photo %}
+            {% if display_pic %}
+            <img src="{{ display_pic.photo.url }}" class="img-fluid rounded room-image" width="300" height="200">
+            {% else %}
+            <img src="{% static 'img/room_photos/default.png' %}" class="img-fluid rounded room-image" width="300"
+              height="200">
+            {% endif %}
+            {% endwith %}
+
+          </div>
+          <div class="col-md-5 px-lg-3 px-md-3 px-0">
+            <h5 class="mb-3">{{room.room_type.name}}</h5>
+            <div class="features mb-4">
+              <h6 class="mb-1">Features</h6>
+              {% for feature in room.room_type.feature.all %}
+              <span class="badge rounded-pill bg-light text-dark text-wrap">
+                {{feature.name}}
+              </span>
+              {% endfor %}
+              <span class="badge rounded-pill bg-light text-dark text-wrap">
+                Beds {{room.bed_count}}
+              </span>
+
+            </div>
+
+            <div class="guests">
+              <h6 class="mb-1">Guests</h6>
+              <span class="badge rounded-pill bg-light text-dark text-wrap">
+                {{room.max_adults}} Adults
+              </span>
+              <span class="badge rounded-pill bg-light text-dark text-wrap">
+                {{room.max_children}} Children
+              </span>
+              
+            </div>
+          </div>
+          <div class="col-md-2 mt-lg-0 mt-md-0 mt-4 text-center">
+            <div>
+            <span class="badge rounded-pill bg-light text-dark text-wrap mb-lg-3">
+              K{{room.price_per_night}} per night
+            </span>
+          </div>
+         
+            <a href="{% url 'room-detail' room.id %}" class="btn btn-sm btn-outline-dark shadow-none">see details</a>
+            
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+
+
+<div id="reserve-modal" class="modal fade">
+  <div id="reserve" class="modal-dialog" hx-target="this"></div>
+</div>
+
+
+  {% endblock content %}

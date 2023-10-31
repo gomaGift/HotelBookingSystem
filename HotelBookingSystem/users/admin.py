@@ -14,7 +14,7 @@ class CustomUserAdmin(admin.ModelAdmin):
     list_display = ("username","email", "phone_number", "is_active","user_role",)
     list_filter = ("email", "user_role", "is_active",)
     fieldsets = (
-        (None, {"fields": ("username", "password")}),
+        (None, {"fields": ( "password",)}),
         (_("Personal info"), {"fields": ("first_name", "last_name", "email","phone_number",'date_of_birth',"profile_pic")}),
         (
             _("Permissions"),

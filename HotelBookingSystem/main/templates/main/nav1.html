@@ -1,0 +1,52 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-md sticky-top bg-light-subtle py-3">
+    <div class="container"><a class="navbar-brand d-flex align-items-center" href="{% url 'landing-page' %}"><span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-hospital">
+                    <path d="M8.5 5.034v1.1l.953-.55.5.867L9 7l.953.55-.5.866-.953-.55v1.1h-1v-1.1l-.953.55-.5-.866L7 7l-.953-.55.5-.866.953.55v-1.1h1ZM13.25 9a.25.25 0 0 0-.25.25v.5c0 .138.112.25.25.25h.5a.25.25 0 0 0 .25-.25v-.5a.25.25 0 0 0-.25-.25h-.5ZM13 11.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5Zm.25 1.75a.25.25 0 0 0-.25.25v.5c0 .138.112.25.25.25h.5a.25.25 0 0 0 .25-.25v-.5a.25.25 0 0 0-.25-.25h-.5Zm-11-4a.25.25 0 0 0-.25.25v.5c0 .138.112.25.25.25h.5A.25.25 0 0 0 3 9.75v-.5A.25.25 0 0 0 2.75 9h-.5Zm0 2a.25.25 0 0 0-.25.25v.5c0 .138.112.25.25.25h.5a.25.25 0 0 0 .25-.25v-.5a.25.25 0 0 0-.25-.25h-.5ZM2 13.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5Z"></path>
+                    <path d="M5 1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1a1 1 0 0 1 1 1v4h3a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h3V3a1 1 0 0 1 1-1V1Zm2 14h2v-3H7v3Zm3 0h1V3H5v12h1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3Zm0-14H6v1h4V1Zm2 7v7h3V8h-3Zm-8 7V8H1v7h3Z"></path>
+                </svg></span><span>Sanctuary Hotel</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-3"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navcol-3" style="margin-left: 2px;padding-right: 0px;margin-right: -10px;">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link active" href="{% url 'landing-page' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link active" href="{% url 'rooms' %}">Rooms</a></li>
+                {% if request.user.is_authenticated %}
+                <li  class="nav-item"> <a class="nav-link "  href="{% url 'my-bookings' request.user.id %}">My Bookings</a></li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link" href="#" hx-get="{% url 'find-reservations' %}" hx-target="#find" class="btn btn-sm shadow mr-2">My Bookings</a></li>
+                {% endif %}
+                <li class="nav-item"><a class="nav-link active" href="{% url 'facilities' %}">Facilities</a></li>
+                <li class="nav-item"><a class="nav-link active" href="{% url 'contact-us' %}">Contact Us</a></li>
+                <li class="nav-item"><a class="nav-link active" href="{% url 'about-us' %}">About</a></li>
+            </ul>
+            
+                  <!-- Logged In -->
+                  {% if request.user.is_authenticated %}
+                  <div class="dropdown" >
+                    <a class="dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" href="#" style="margin-left: -13px;margin-right: 22px;">
+                     <img class="mr-4 rounded" width="32px" height="32px" src="{{ request.user.profile_pic.url }}" alt="">
+                   </a>
+                 <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                    
+                    <a class="dropdown-item" href="{% url 'logout-user' %}">Logout</a>
+                    </div>
+              </div>
+                  {% else %}
+                  <div class="dropdown">
+                    <a class="dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" href="#" style="margin-left: -13px;margin-right: 22px;"><svg class="bi bi-person-circle" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="font-size: 34px;">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
+                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"></path>
+                </svg></a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+                <a class="dropdown-item" href="{% url 'register' %}">Signup</a>
+            </div>
+            </div>
+                  {% endif %}
+      
+              </nav>
+        </div>
+    </div>
+    
+</nav>
+

@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
-    'users'
+    'users',
+    'widget_tweaks'
 ]
 
 MIDDLEWARE = [
@@ -101,6 +103,16 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+CELERY_BROKER_URL = 'pyamqp://guest@127.0.0.1:5672//'
+CELERY_RESULT_BACKEND = 'rpc://'
+
+# Use JSON as the default message serializer
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+# Ensure Celery stores task results in the database
+CELERY_RESULT_PERSISTENT = True
 
 
 # Internationalization
@@ -120,6 +132,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -137,8 +150,8 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_URL = "static/"
-MEDIA_ROOT = BASE_DIR/ 'static/images'
-MEDIA_URL = '/images/'
+MEDIA_ROOT = BASE_DIR/ 'static/img'
+MEDIA_URL = '/img/'
 
 # password reset email configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -147,4 +160,5 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True  # Use TLS for secure connections
 EMAIL_HOST_USER = os.environ.get('EMAIL')
 EMAIL_HOST_PASSWORD = os.environ.get('PASS')
+
 

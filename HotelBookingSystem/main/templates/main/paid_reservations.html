@@ -1,0 +1,76 @@
+{% extends 'main/base.html' %}
+
+{% load static%}
+
+{% block content %}
+<div class="my-5 px-4">
+   <div class="fw-bold h-font text-center"> {% if messages %}
+    {% for message in messages%}
+    <p> {{message}} </p>
+    {% endfor %}
+    {% endif %}</div>
+  <h2 class="fw-bold h-font text-center">My Bookings</h2>
+
+  <div class="h-line bg-dark"></div>
+  <p class="text-center mt-3">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat.
+  </p>
+</div>
+{% if exist %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4 col-md-6 mb-5 px-4">
+      <div class="bg-white rounded shadow-lg p-4 border-top border-4 border-dark pop">
+        <div class="d-flex align-items-center mb-2">
+            {% if facility.avatar %}
+          <img src="{{facility.avatar.url}}" width="40px">
+          {% endif %}
+          <h5 class="m-0 ms-3">{{facility.name}}</h5>
+        </div>  
+          <p>
+           Reservation Date: {{reservation.reservation_date}}
+          </p> 
+          <p>
+            Email: {{reservation.email}}
+           </p>
+          <p>
+           Check In Date: {{reservation.check_in_date}}
+           </p> 
+           <p>
+           Check Out Date: {{reservation.check_out_date}}
+           </p> 
+           <p>
+           Reservation Id: {{reservation.reservation_id}}
+           </p> 
+           <p>
+            Days Of Stay : {{reservation.duration}}
+            </p> 
+            <p>
+            Price Per Night: K{{reservation.room.price_per_night}}
+              </p> 
+            <p>
+            Total Amount : K{{reservation.total_price}}
+              </p> 
+          <p >
+            Status: {{reservation.reservation_status}}
+          </p> 
+           <a href=""
+          class="btn btn-sm w-100 text-white custom-bg shadow-none mb-2">check in</a>
+         
+
+      </div>
+     
+
+    </div>
+    
+  </div>
+</div>
+{% else %}
+<h4>Reservation not found</h4>
+{% endif %}
+
+{% endblock content %}
+

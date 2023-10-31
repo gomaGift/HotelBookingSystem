@@ -1,0 +1,144 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% with WIDGET_ERROR_CLASS='is-invalid' %}
+{% block content%}
+<style>
+  /* Additional Custom Styles */
+  body {
+    background-color: #fff;
+    /* White background */
+    color: #000;
+    /* Black text */
+  }
+
+  .btn-book-room {
+    background-color: #66bb6a;
+    /* Light green button */
+    color: #fff;
+    /* White text */
+  }
+</style>
+<div class="container">
+
+  <main>
+
+    <div class="container">
+      <div class="row">
+        <!-- Left Column (Room Filters) -->
+        {% if messages %}
+        {% for message in messages %}
+       <p>{{ message }}</p> 
+        {% endfor %}
+        {% endif %}
+        <!-- Right Column (Room Detail Section) -->
+        <div class="col-md-8  ">
+          <!-- Room Detail Section -->
+
+          <main class="pt-4">
+            <section id="room-images" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                {% for img in room.room_images.all %}
+                <div class="carousel-item active">
+                  <img src="{{img.photo.url}}" class="d-block w-100" alt="Room Image 1" width="100" height="350">
+                </div>
+                {% endfor %}
+
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#room-images" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#room-images" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </section>
+
+            <hr>
+            <section id="room-description">
+              <h5>Description </h5>
+              <p>{{room.room_type.description}}.</p>
+            </section>
+            <hr>
+            <section id="reviews" class="">
+              <h5>Reviews</h5>
+              {% for review in reviews %}
+              <div class="review">
+                <div class="user-rating">
+                  <img class="" src="{{review.user.profile_pic.url}}" width="30" height="30" class="" alt="User Avatar">
+                  <p>{{review.user.username}}</p><br>
+                </div>
+
+
+                <div class="star-rating">
+                  {{review.rating}} <!-- Adjust the number of stars as needed -->
+                </div>
+                <p>{{review.comment}}</p>
+                <p class="review-date">{{review.created}}</p>
+              </div>
+              <hr>
+              {% endfor %}
+              <!-- Additional reviews can be added here -->
+
+            </section>
+
+
+
+          </main>
+          <footer>
+
+            <button hx-get="{% url 'rate-room' room.id %}" hx-target="#register"
+              class="btn btn-outline-dark shadow-none me-lg-1 me-2">Rate room</button>
+
+            <div id="model" class="modal fade">
+              <div id="register" class="modal-dialog" hx-target="this"></div>
+            </div>
+
+            <div id="reserve-modal" class="modal fade">
+              <div id="reserve" class="modal-dialog" hx-target="this"></div>
+            </div>
+
+          </footer>
+        </div>
+        
+      
+
+        <form  method="POST" action="" class="col-lg-4 col-md-6 my-3 pt-2 ">
+          {% csrf_token %}
+          <div class="card border-0 shadow room_filters" style="max-width: 350px; margin: auto;">
+
+
+            <div class="card">
+              <div class="card-body text-center d-flex flex-column align-items-center">
+                <h5>{{room.room_type.name}}</h5>
+                <h6>Price Per Night: K{{room.price_per_night}}</h6>
+                <div>
+
+                  <div class="card-body text-center d-flex flex-column align-items-center">
+                      {% csrf_token %}
+
+                      <div class="mb-3">
+                        {{form.as_p}}
+
+                      </div>
+
+                      <div class="mb-3">
+                        <button class="btn btn-sm w-100 text-white custom-bg shadow-none mb-2" type="submit">book
+                          now</button>
+                      </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+        </form>
+
+
+      </div>
+    </div>
+    <script src="{%  static 'js/reservation.js' %}"></script>
+    {% endblock content %}
+    {% endwith %}

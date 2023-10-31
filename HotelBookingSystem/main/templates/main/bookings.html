@@ -1,0 +1,93 @@
+{% extends 'main/base.html' %}
+
+{% load static%}
+
+{% block content %}
+<div class="my-5 px-4">
+   <div class="fw-bold h-font text-center"> {% if messages %}
+    {% for message in messages%}
+    <p> {{message}} </p>
+    {% endfor %}
+    {% endif %}</div>
+  <h2 class="fw-bold h-font text-center">My Bookings</h2>
+
+  <div class="h-line bg-dark"></div>
+  <p class="text-center mt-3">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat.
+  </p>
+</div>
+
+<div class="container">
+  <div class="row">
+    {% for reservation in reservations %}
+    <div class="col-lg-4 col-md-6 mb-5 px-4">
+      <div class="bg-white rounded shadow-lg p-4 border-top border-4 border-dark pop">
+        <div class="d-flex align-items-center mb-2">
+            {% if facility.avatar %}
+          <img src="{{facility.avatar.url}}" width="40px">
+          {% endif %}
+          <h5 class="m-0 ms-3">{{facility.name}}</h5>
+        </div>  
+        <p>
+          Reservation Room: {{reservation.room.room_type.name}}
+         </p> 
+         <p>
+          Email: {{reservation.email}}
+         </p>
+          <p>
+           Reservation Date: {{reservation.reservation_date}}
+          </p> 
+          <p>
+           Check In Date: {{reservation.check_in_date}}
+           </p> 
+           <p>
+           Check Out Date: {{reservation.check_out_date}}
+           </p> 
+           <p>
+           Reservation Id: {{reservation.reservation_id}}
+           </p> 
+           <p>
+            Days Of Stay : {{reservation.duration}}
+            </p> 
+            <p>
+              Price Per Night: K{{reservation.room.price_per_night}}
+              </p> 
+            <p>
+              Total Amount : K{{reservation.total_price}}
+              </p> 
+          <p >
+    Status: {% if reservation.reservation_status == 'pay' %}awaiting-payment
+    {% elif reservation.reservation_status == 'book' %}booked
+    {% elif reservation.reservation_status == 'active' %}Active
+    {% elif reservation.reservation_status == 'inactive' %}Inactive
+    {% elif reservation.reservation_status == 'can' %}Cancelled
+    {% endif %}
+          </p> 
+           {% if reservation.reservation_status == 'pay' %}
+           <div class="d-flex justify-content-evenly mb-2">
+           <a href="{% url 'pay-now' reservation.room.id %}"
+          class="btn btn-sm text-white custom-bg shadow-none mb-2">Pay Now</a>
+          <a href="{% url 'cancel' reservation.id %}"
+          class="btn btn-sm btn-outline-danger  shadow-none mb-2">Cancel</a>
+          </div>
+          {% elif reservation.reservation_status == 'book' %}
+        <div class="d-flex justify-content-evenly mb-2">
+            <a href="{% url 'check-in'  reservation.room.id %}" class="btn btn-sm text-white custom-bg shadow-none">check in</a>
+            <a href="{% url 'gen-reservation-summary' reservation.id %}"
+          class="btn btn-sm btn-outline-dark ">summary</a>
+        </div>
+            {% elif reservation.reservation_status == 'active' %}
+            <a href="{% url 'check-out'  reservation.id %}" class="btn btn-sm text-white custom-bg shadow-none">check out</a>
+          {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+    
+  </div>
+</div>
+
+{% endblock content %}
+

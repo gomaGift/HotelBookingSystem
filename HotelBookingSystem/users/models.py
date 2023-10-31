@@ -21,6 +21,7 @@ class User(AbstractUser):
     
     
     def save(self, *args, **kwargs) -> None:
+        self.username = f"{self.first_name}_{self.last_name}"
         if self.phone_number:
             if self.phone_number.startswith('0'):
                 self.phone_number = '+26' + self.phone_number

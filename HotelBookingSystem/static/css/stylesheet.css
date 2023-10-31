@@ -1,0 +1,183 @@
+:root{
+	--teal: #3cdca7;
+	--teal_hover:#17c5ab;
+}
+*{
+font-family: 'Poppins', sans-serif;
+}
+
+.navbar-brand {
+    font-family: 'Lobster', cursive;
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textarea;
+}
+.custom-bg{
+    background-color: var(--teal);
+    border: 1px solid var(--teal);
+}
+.custom-bg:hover{
+    background-color: rgb(47, 255, 168);
+    border-color: var(--teal-hover);
+}
+
+.h-line{
+    width: 150px;
+    margin: 0 auto;
+    height: 1.7px;
+}
+
+
+
+    .room-image {
+        width: 300px; /* Set the common width */
+        height: 200px; /* Set the common height */
+    }
+
+
+    .availability-form{
+		margin-top: -50px;
+		z-index: 2;
+		position: relative;
+	}
+
+	@media screen and (max-width: 575px) {
+	.availability-form{
+		margin-top: 25px;
+		padding: 0 35px;
+	}
+
+	}
+
+    
+    .dropdown{
+          float:left;
+           text-align:center; 
+           padding:0px;
+      
+    }
+
+    .py-5 {
+        background-image: url('/static/img/hotel_photos/IMG_70583.png');
+        /* Other background properties */
+    }
+    
+  
+
+.search {
+  width: 100%;
+     
+    margin-bottom: 20px;
+    height: 50px;
+    background-color:rgb(220, 220, 220);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.search-input {
+    color: white;
+    border: 0;
+    outline: 0;
+    background: none;
+    width: 0;
+  
+    caret-color: transparent;
+    line-height: 20px;
+    transition: width 0.4s linear
+}
+
+.search .search-input {
+    padding: 5px;
+    width: 100%;
+    caret-color: var(--teal);
+    font-size: 19px;
+    font-weight: 300;
+    color: black;
+    transition: width 0.4s linear;
+}
+
+
+
+a:link {
+    text-decoration: none
+}
+
+
+.room_filters{
+    position: sticky;
+    top: 0;
+  
+}
+
+.navbar{
+    background-color: rgb(245, 245, 245);
+}
+.bs-icon {
+    --bs-icon-size: .75rem;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--bs-icon-size);
+    width: calc(var(--bs-icon-size) * 2);
+    height: calc(var(--bs-icon-size) * 2);
+    color: var(--teal);
+  }
+  
+  .bs-icon-xs {
+    --bs-icon-size: 1rem;
+    width: calc(var(--bs-icon-size) * 1.5);
+    height: calc(var(--bs-icon-size) * 1.5);
+  }
+  
+  .bs-icon-sm {
+    --bs-icon-size: 1rem;
+  }
+  
+  .bs-icon-md {
+    --bs-icon-size: 1.5rem;
+  }
+  
+  .bs-icon-lg {
+    --bs-icon-size: 2rem;
+  }
+  
+  .bs-icon-xl {
+    --bs-icon-size: 2.5rem;
+  }
+  
+  .bs-icon.bs-icon-primary {
+    color: var(--bs-white);
+    background: var(--bs-primary);
+  }
+  
+  .bs-icon.bs-icon-primary-light {
+    color: var(--bs-primary);
+    background: rgba(var(--bs-primary-rgb), .2);
+  }
+  
+  .bs-icon.bs-icon-semi-white {
+    color: var(--bs-primary);
+    background: rgba(255, 255, 255, .5);
+  }
+  
+  .bs-icon.bs-icon-rounded {
+    border-radius: .5rem;
+  }
+  
+  .bs-icon.bs-icon-circle {
+    border-radius: 50%;
+  }
+  
+  .bg-light-subtle {
+    position: sticky;
+  }
+  
