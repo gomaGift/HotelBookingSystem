@@ -1,0 +1,11 @@
+from django import template
+
+
+# Create your views here.
+
+
+register = template.Library()
+
+@register.filter
+def count_items(queryset):
+    return queryset.count()
